@@ -41,9 +41,9 @@ class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="COSMOS APIs",
+        title="WASTY APIs",
         default_version='v1',
-        description="COSMOS APIs documentation for web application and mobile application integration",
+        description="WASTY APIs documentation for web application and mobile application integration",
     ),
     public=True,
     generator_class=BothHttpAndHttpsSchemaGenerator,
