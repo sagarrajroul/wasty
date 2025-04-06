@@ -9,9 +9,13 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
-from pathlib import Path
+import os
 from datetime import timedelta
+from pathlib import Path
+
+import dj_database_url
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -19,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#_z0b^8%1x0dj4tu$wfc6ys@v4@!a5b3dptax)oam5p8xscw4q'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'user_management',
+    'order_management'
 ]
 
 MIDDLEWARE = [
@@ -75,11 +80,9 @@ WSGI_APPLICATION = 'wasty.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=config("DATABASE_URL"))
 }
+DATABASES['default']['ENGINE'] = config('DB_ENGINE')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -135,7 +138,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
-
 
 SIMPLE_JWT = {
     'USER_ID_FIELD': 'email',
