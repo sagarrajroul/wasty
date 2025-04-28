@@ -1,4 +1,5 @@
-from django.utils import timezone
+from datetime import datetime
+
 from rest_framework import serializers, status
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, UpdateAPIView
 from rest_framework.response import Response
@@ -56,10 +57,10 @@ class ProductRetrivUpdateApi(RetrieveUpdateDestroyAPIView):
 
     def perform_update(self, serializer):
         serializer.save(modified_by=self.request.user.id,
-                        modified_on=timezone.now().astimezone(timezone.utc))
+                        modified_on=datetime.now().astimezone(timezone.utc))
 
 
-class ProductCreateApi(RetrieveUpdateDestroyAPIView):
+class ProductCreateApi(CreateAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
