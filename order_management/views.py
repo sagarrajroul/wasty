@@ -1,7 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from rest_framework import serializers, status
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, UpdateAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, UpdateAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -66,6 +66,11 @@ class ProductCreateApi(CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user.id)
+
+
+class ProductListApi(ListAPIView):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
 
 
 class WithdrawHistoryRetrivApi(APIView):
