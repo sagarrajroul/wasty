@@ -33,6 +33,15 @@ class ProductSerializer(ModelSerializer):
         fields = "__all__"
 
 
+class ProductCreateSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ("name", "description", "price", "is_active")
+
+    def create(self, validated_data):
+        return super().create(validated_data)
+
+
 class WithdrawHistorySerializer(ModelSerializer):
     class Meta:
         model = WithdrawHistory
