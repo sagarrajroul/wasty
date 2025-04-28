@@ -6,7 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Wallet, WithdrawHistory, Item, Product
-from .serializers import WalletSerializer, ProductSerializer, WithdrawHistorySerializer, ItemSerializer
+from .serializers import WalletSerializer, ProductSerializer, WithdrawHistorySerializer, ItemSerializer, \
+    ProductCreateSerializer
 
 
 class WalletRetrivApi(APIView):
@@ -61,7 +62,7 @@ class ProductRetrivUpdateApi(RetrieveUpdateDestroyAPIView):
 
 
 class ProductCreateApi(CreateAPIView):
-    serializer_class = ProductSerializer
+    serializer_class = ProductCreateSerializer
     queryset = Product.objects.all()
 
     def perform_create(self, serializer):
