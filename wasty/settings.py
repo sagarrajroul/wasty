@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', "o6f#5glz$s^o2d)4f=+4$#6k8y@_9tpuqz7h@d@h3@3&1b$=lz")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUGGER")
+DEBUG = config("DEBUGGER", "True")
 
 ALLOWED_HOSTS = ['*']
 
@@ -84,10 +84,10 @@ WSGI_APPLICATION = 'wasty.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
+        "NAME": config("DB_NAME", "WastyDB"),
+        "USER": config("DB_USER", "postgres"),
+        "PASSWORD": config("DB_PASSWORD", "Admin1234"),
+        "HOST": config("DB_HOST", "wasty.cgb6k2oowxa4.us-east-1.rds.amazonaws.com"),
         "PORT": config("DB_PORT", "5432"),
         "OPTIONS": {"sslmode": "require"},
     }
