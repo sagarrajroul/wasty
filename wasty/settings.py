@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'user_management',
-    'order_management'
+    'order_management',
+    "bag_management"
 ]
 
 MIDDLEWARE = [
@@ -81,9 +82,16 @@ WSGI_APPLICATION = 'wasty.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=config("DATABASE_URL"))
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("DB_NAME"),
+        "USER": config("DB_USER"),
+        "PASSWORD": config("DB_PASSWORD"),
+        "HOST": config("DB_HOST"),
+        "PORT": config("DB_PORT", "5432"),
+        "OPTIONS": {"sslmode": "require"},
+    }
 }
-DATABASES['default']['ENGINE'] = config('DB_ENGINE')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

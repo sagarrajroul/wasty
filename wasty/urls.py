@@ -55,4 +55,5 @@ urlpatterns = [
     path('swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path(f"{VERSION_URL}user/", include('user_management.urls')),
     path(f"{VERSION_URL}order/", include('order_management.urls')),
+    path(f"{VERSION_URL}bag/", include('bag_management.urls')),
 ]
