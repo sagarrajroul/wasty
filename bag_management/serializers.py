@@ -26,4 +26,4 @@ class BagAssignmentHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BagAssignmentHistory
-        fields = ["id", "bag_qr", "user", "action", "started_at", "ended_at", "products"]
+        fields = ["id", "bag_qr", "user", "assign_on", "products"]
