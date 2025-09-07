@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY', "o6f#5glz$s^o2d)4f=+4$#6k8y@_9tpuqz7h@d@h3@3&1
 DEBUG = config("DEBUGGER", "True")
 
 ALLOWED_HOSTS = ['*']
-
+CSRF_TRUSTED_ORIGINS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
