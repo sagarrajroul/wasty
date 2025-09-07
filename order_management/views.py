@@ -7,19 +7,19 @@ from rest_framework.views import APIView
 
 from .models import Wallet, WithdrawHistory, Item, Product
 from .serializers import WalletSerializer, ProductSerializer, WithdrawHistorySerializer, ItemSerializer, \
-    ProductCreateSerializer
+    ProductCreateSerializer, ItemReadSerializer
 
 
 class WalletRetrivApi(APIView):
     serializer_class = WalletSerializer
 
-    def get(self, request):
+    def get(self, request, user_id):
         try:
-            user_id = request.GET.get("user_id")
+            # user_id = request.GET.get("user_id")
             queryset = Wallet.objects.filter(user=user_id).first()
             serializer = self.serializer_class(queryset, many=True)
             data = serializer.data
-            return Response({"count": queryset.count(), "results": data}, status=status.HTTP_200_OK)
+            return Response({"results": data}, status=status.HTTP_200_OK)
         except serializers.ValidationError as ve:
             raise serializers.ValidationError(ve.detail)
         except Exception as ee:
@@ -36,7 +36,7 @@ class WalletUpdateApi(UpdateAPIView):
 
 
 class ItemRetrivUpdateApi(RetrieveUpdateDestroyAPIView):
-    serializer_class = ItemSerializer
+    serializer_class = ItemReadSerializer
     queryset = Item.objects.all()
 
     def perform_update(self, serializer):
@@ -50,6 +50,11 @@ class ItemCreateApi(CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user.id)
+
+
+class ItemListApi(ListAPIView):
+    serializer_class = ItemReadSerializer
+    queryset = Item.objects.all()
 
 
 class ProductRetrivUpdateApi(RetrieveUpdateDestroyAPIView):

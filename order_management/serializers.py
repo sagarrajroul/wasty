@@ -47,8 +47,12 @@ class WithdrawHistorySerializer(ModelSerializer):
         model = WithdrawHistory
         fields = "__all__"
 
-
 class ItemSerializer(ModelSerializer):
+    class Meta:
+        model = Item
+        fields = ("name", "description","price", "is_active")
+
+class ItemReadSerializer(ModelSerializer):
     class Meta:
         model = Item
         fields = "__all__"

@@ -3,15 +3,30 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.tokens import RefreshToken
+from order_management.models import Wallet
 
 User = get_user_model()
 
 
 # User Serializer
 class UserSerializer(serializers.ModelSerializer):
+    wallet_balance = serializers.SerializerMethodField(method_name="get_wallet_balance")
+    total_waste = serializers.SerializerMethodField(method_name="get_total_waste")
+
     class Meta:
         model = User
-        fields = ('id', 'email', 'first_name', 'last_name', 'phone_number', 'created_on')
+        fields = ('id', 'email', 'first_name', 'last_name', 'phone_number', 'created_on', "wallet_balance", "total_waste")
+
+    @staticmethod
+    def get_wallet_balance(obj):
+        try:
+            return Wallet.objects.get(user=obj.id).balance
+        except Wallet.DoesNotExist:
+            return 0
+
+    @staticmethod
+    def get_total_waste(obj):
+        return 0
 
 
 # Signup Serializer
