@@ -10,7 +10,7 @@ from .serializers import WasteBagSerializer, BagAssignmentHistorySerializer, Was
 
 class CreateBagApi(CreateAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = WasteBagSerializer
+    serializer_class = WasteBagCreateSerializer
     queryset = WasteBag.objects.all()
 
 
@@ -88,7 +88,7 @@ class CheckBagApi(APIView):
     def get(self, request, qr_code):
         try:
             queryset = WasteBag.objects.filter(qr_code=qr_code).first()
-            serializer = self.serializer_class(queryset, many=True)
+            serializer = self.serializer_class(queryset)
             data = serializer.data
             return Response({"results": data}, status=status.HTTP_200_OK)
         except serializers.ValidationError as ve:
