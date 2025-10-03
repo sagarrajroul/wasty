@@ -9,5 +9,6 @@ urlpatterns = [
     path("unassign", views.UnassignBagAPIView.as_view(), name="unassign_bag"),
     path("user-history/<int:user_id>", views.UserBagHistoryAPIView.as_view(), name="user_bag_history"),
     path("check/<str:qr_code>", views.CheckBagApi.as_view(), name="check_bag_details"),
+    path("generate/qr", views.WasteBagQRCodeView.as_view(), name="generate qr code"),
 
 ]

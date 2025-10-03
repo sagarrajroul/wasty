@@ -1,3 +1,6 @@
+import uuid
+
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -6,7 +9,8 @@ from rest_framework import status, serializers
 from .models import WasteBag, BagAssignmentHistory, WasteProduct
 from .serializers import WasteBagSerializer, BagAssignmentHistorySerializer, WasteProductSerializer, \
     WasteBagCreateSerializer
-
+import qrcode
+import io
 
 class CreateBagApi(CreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -132,3 +136,34 @@ class BagProductHistoryAPIView(ListAPIView):
             session__bag_id=bag_id,
             session__user=self.request.user
         ).order_by("-created_at")
+
+
+class WasteBagQRCodeView(APIView):
+    """
+    Generate QR code for a WasteBag given its ID.
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            qr_code = uuid.uuid4()
+            bag = WasteBag.objects.create(qr_code=qr_code)
+
+            # Generate QR code with the bag.qr_code (UUID)
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(bag.qr_code)
+            qr.make(fit=True)
+
+            img = qr.make_image(fill_color="black", back_color="white")
+
+            buffer = io.BytesIO()
+            img.save(buffer, format="PNG")
+            buffer.seek(0)
+
+            return HttpResponse(buffer, content_type="image/png")
+        except Exception as ee:
+            return  Response(str(ee))
